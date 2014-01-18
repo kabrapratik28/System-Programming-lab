@@ -11,7 +11,7 @@ main()
    scanf("%d", &n);
  
    if ( n == 2 )
-      printf("Prime int number.\n");
+      printf("Prime int number.\n"); 
    else
    {
        for ( c = 2 ; c <= n - 1 ; c++ )
