@@ -1,0 +1,18 @@
+             LITREAL TABLE             
+1  ='5' 1007
+2  ='9' 1008
+
+
+
+             FORWARD REVERSE TABLE             
+m  1011 1000 1004 
+loop  1002 1009 
+='5'  0 1002 1007 
+='9'  0 1003 1008 
+n  1012 1005 
+
+
+
+             SYMBOL TABLE             
+m  1011 10 
+n  1012 4  0
