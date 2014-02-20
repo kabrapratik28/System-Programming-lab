@@ -1,0 +1,36 @@
+FIRST LOCAL SYMBOL TABLE
+n  2  1000
+a  2  1002
+b  2  1004
+c  2  1006
+s  2  1008
+k  4  1010
+pop  1  1014
+s2  1  1015
+s3  1  1016
+lo  1  1017
+att  1  1018
+mtttt  1  1019
+aasd  8  1020
+EXTERN SYMBOL FIRST TABLE
+v  5006  2
+v2  5015  1
+v3  5027  8
+SECOND LOCAL SYMBOL TABLE
+n  2  5000
+a  2  5002
+b  2  5004
+v  2  5006
+c  2  5008
+k  4  5010
+pop  1  5014
+v2  1  5015
+lo  1  5016
+att  1  5017
+mtttt  1  5018
+aasd  8  5019
+v3  8  5027
+EXTERN SYMBOL SECOND TABLE
+s  1008  2
+s2  1015  1
+s3  1016  1

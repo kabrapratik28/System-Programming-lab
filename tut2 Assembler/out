@@ -1,0 +1,32 @@
+             LITREAL TABLE             
+1  ='5' 2008
+2  ='9' 2009
+
+
+
+             FORWARD REVERSE TABLE             
+m  2012 2001 2005 
+loop  2003 2010 
+='5'  0 2003 2008 
+='9'  0 2004 2009 
+n  2013 2006 
+
+
+
+             SYMBOL TABLE             
+m  2012 100
+n  2013 40
+
+
+
+             MNEMONIC OPCODE TABLE             
+1  move
+2  mover
+3  movem
+4  mult
+5  bc
+6  add
+7  sub
+8  jmp
+9  comp
+10  equ

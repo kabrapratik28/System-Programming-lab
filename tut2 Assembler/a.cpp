@@ -30,12 +30,38 @@ public:
 
 }st;
 
-/*
+
   class MOT {
   public:
+  vector<int> opcode; 
+  vector<string> opcodename; 
+  
+  void tableload(){
+  opcode.push_back(1);
+  opcodename.push_back("move");
+  opcode.push_back(2);
+  opcodename.push_back("mover");
+  opcode.push_back(3);
+  opcodename.push_back("movem");
+  opcode.push_back(4);
+  opcodename.push_back("mult");
+  opcode.push_back(5);
+  opcodename.push_back("bc");
+  opcode.push_back(6);
+  opcodename.push_back("add"); 
+  opcode.push_back(7);
+  opcodename.push_back("sub"); 
+  opcode.push_back(8);
+  opcodename.push_back("jmp"); 
+  opcode.push_back(9);
+  opcodename.push_back("comp");
+  opcode.push_back(10);
+  opcodename.push_back("equ");    
+  
+  }
     
   }mot;
-  //HARD CODED  */
+/*  //HARD CODED  */
 
 class LT {
 public:
@@ -305,8 +331,8 @@ void startchecker(string onelineofcode)
 
 int main()
 {
-	
-  ifstream file("a.asm");   //open file
+  
+  ifstream file("b.asm");   //open file
   string line_by_line;     //line by line read
   string clean_string,clean_string1, instru ;
   vector<string> labelstorer ; 
@@ -341,10 +367,10 @@ int main()
       address_starter =   addressinc ();
 
     }
-  int loc_con =  0 ;
+  int loc_con =  0 , lttabletotal=(lt.number.size()-1) ;
   cout << "             LITREAL TABLE             \n" ; 
-  while (loc_con<=lt.number.size()-1)
-    {
+  while (loc_con<= lttabletotal)
+    {         
       cout << lt.number[loc_con] << "  " << lt.literal[loc_con]<< " "<< lt.location[loc_con]<<"\n" ; 
       loc_con++ ;   
     }
@@ -380,6 +406,17 @@ stringstream ss;
   while (loc_con<=st.name.size()-1)
     {
       cout << st.name[loc_con] << "  " << st.address[loc_con]<< " "<< st.value[loc_con]<< st.lenght[loc_con]<<"\n" ; 
+      loc_con++ ;   
+    }
+  
+
+  cout << "\n\n\n"  ; 
+  mot.tableload();
+  loc_con =  0 ;
+  cout << "             MNEMONIC OPCODE TABLE             \n" ; 
+  while (loc_con<=mot.opcode.size()-1)
+    {
+      cout << mot.opcode[loc_con] << "  " << mot.opcodename[loc_con]<<"\n" ; 
       loc_con++ ;   
     }
   
