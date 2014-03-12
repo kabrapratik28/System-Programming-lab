@@ -1,0 +1,13 @@
+macro abc &a &k
+load p 
+add q
+mend
+macro xyz
+load a 
+add b 
+mend
+mult c
+xyz
+add b
+abc
+end
