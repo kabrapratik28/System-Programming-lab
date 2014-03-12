@@ -4,7 +4,7 @@
 #include <vector>   // dyanamic array
 #include <string>   // string 
 #include <algorithm>  //replace 
-
+#include <map>   //dictionary (map)
 using namespace std;
 
 class MNT{
@@ -15,9 +15,9 @@ public :
 
   void add_element(string na , int noofpara , int sta)
   {
-	  name.push_back(na);
-	  no_of_parameter.push_back(noofpara);
-	  start.push_back(sta);
+    name.push_back(na);
+    no_of_parameter.push_back(noofpara);
+    start.push_back(sta);
   }
 
 }mnt ; 
@@ -25,7 +25,14 @@ public :
 class for_vs_pos{
 public : 
   vector<string> formal   ; 
-  vector<string> positional  ;
+  vector<int> positional  ;
+  int positional_curr_no  ; 
+
+  void add(string ddd )
+  {
+    formal.push_back(ddd);
+    positional.push_back(positional_curr_no) ;
+  }
 }fp ; 
 
 class MDT {
@@ -37,7 +44,16 @@ public :
 class pos_vs_act {
 public : 
   vector<int> positional   ; 
-  vector<int> actual  ;
+  vector<string> actual  ;
+
+
+  void add(int pooo ,string posi )
+  {
+    positional.push_back(pooo);
+    actual.push_back(posi) ;
+  }
+
+
 }pvsa ; 
 
 // white space trimmer function 
@@ -61,33 +77,34 @@ string trim(string str)
 
 bool macro_finder(string stra)
 {
-if(stra.find("macro")!=string::npos)
-	{
-	  return true ;  
-	}
+  if(stra.find("macro")!=string::npos)
+    {
+      return true ;  
+    }
 
- return false  ;
+  return false  ;
 }
 
 bool macro_end_finder(string stra)
 {
-if(stra.find("mend")!=string::npos)
-	{
-	  return true ;  
-	}
+  if(stra.find("mend")!=string::npos)
+    {
+      return true ;  
+    }
 
- return false  ;
+  return false  ;
 }
 
 int main()
 {
+  fp.positional_curr_no = 0 ;  //positional no intialized 
   ifstream infile("abc");
   string line ,trimmed_line;  
   int counter = 0 ; 
   bool macrotell,macroend,macro_def_running;
   vector <MDT> allmdt ; 
   MDT mdt ;
-  vector<string> macro_def_line_save ; //for when call macro found check parameter with this line 
+  map<string,string> macro_def_line_save ; //for when call macro found check parameter with this line 
   while(getline(infile, line))
     {
       counter++ ; 
@@ -106,6 +123,18 @@ int main()
 	  macro_def_line >> nonsense ; 
 	  macro_def_line >> name_of_macro ; 
 	  mdt.mac_name = name_of_macro ; //macro name aded to object
+
+	  stringstream wholetaken ; 
+	  wholetaken << macro_def_line.str() ;
+	  wholetaken >> nonsense ; 
+	  wholetaken >> nonsense ; 
+	  string onlypara="" , para1 ; 
+	  while(wholetaken >>para1)
+	    {
+	      onlypara = onlypara + para1+ " "  ; 
+	    }
+
+	  macro_def_line_save[name_of_macro]=onlypara;    //<===    making whole string 
 	  // if any parameter add to 
 	  while(macro_def_line>>para)
 	    {
@@ -130,30 +159,82 @@ int main()
 	    }
 	  else 
 	    {
-	      // normal code 
-
+	      // normal code
+	      int counter_pos_at = 0 ; 
+	      for (map<string,string>:: iterator u =  macro_def_line_save.begin() ; u!= macro_def_line_save.end() ; u++  )
+		{
+		  if (trimmed_line.find(u->first)!=string::npos ) // matches ==> this is call to macro
+		    {
+		      // counter is showing line from which macro gets call 
+		      // counter_pos_at shows which macro gets call  
+		      stringstream forpara ;
+		      string nonsense_2 ,parameter; 
+		      forpara << trimmed_line ; 
+		      forpara >> nonsense_2 ; // macro name removed from line // from above we got macro name 
+		      stringstream para_only ; 
+		      string indivual_para ; 
+		      para_only << u->second ; // praline get of that macro //THIS IS GOT FROM STANDARD PARALIST AT DEF TIME
+		       while(forpara>>parameter)
+			 {
+			   // add pos_vs_from and form_vs_actual table here 
+		    	    fp.positional_curr_no++ ;  //positional  no  increamented 
+			    para_only >> indivual_para ; 
+			    fp.add(indivual_para) ;
+			    pvsa.add(fp.positional_curr_no,parameter) ; 
+			    
+			 }
+		      
+		      break ; 
+		    }
+		  counter_pos_at++ ; 
+		}
 	    }
 	}
     }
   // do other table works here
   cout << " MDT TABLE" << "\n" ; 
-   for (vector<MDT>::iterator i = allmdt.begin(); i != allmdt.end(); i++)
-     {
-       cout << "Macro name : "<<(*i).mac_name <<"\n"; 
-       for (vector<string>::iterator j= (*i).def.begin(); j != (*i).def.end(); j++)
-	 {
-	     cout << *j <<"\n"; 
-	 }
-       cout << "=======\n" ; 
-     }
-   cout << " MNT TABLE "<<"\n" ; 
-   int localcount = 0  ; 
-       for (vector<string>::iterator j= mnt.name.begin(); j != mnt.name.end(); j++)
-	 {
-	   cout << *j<<" "<< mnt.no_of_parameter[localcount]<<" "<<mnt.start[localcount] <<"\n";
-	   localcount++ ; 
-	 }
-       cout << "=======\n" ; 
+  for (vector<MDT>::iterator i = allmdt.begin(); i != allmdt.end(); i++)
+    {
+      cout << "Macro name : "<<(*i).mac_name <<"\n"; 
+      for (vector<string>::iterator j= (*i).def.begin(); j != (*i).def.end(); j++)
+	{
+	  cout << *j <<"\n"; 
+	}
+      cout << "=======\n" ; 
+    }
+  //MNT table printing 
+  cout << " MNT TABLE "<<"\n" ; 
+  int localcount = 0  ; 
+  for (vector<string>::iterator j= mnt.name.begin(); j != mnt.name.end(); j++)
+    {
+      cout << *j<<" "<< mnt.no_of_parameter[localcount]<<" "<<mnt.start[localcount] <<"\n";
+      localcount++ ; 
+    }
+  cout << "=======\n" ; 
      
+  
+  //FP table printing 
+  cout << " FP TABLE "<<"\n" ; 
+  localcount = 0  ; 
+  for (vector<string>::iterator j= fp.formal.begin(); j != fp.formal.end(); j++)
+    {
+      cout << *j<<" "<< fp.positional[localcount] <<"\n";
+      localcount++ ; 
+    }
+  cout << "=======\n" ; 
+
+  
+  //FP table printing 
+  
+  cout << " PVSA TABLE "<<"\n" ; 
+  localcount = 0  ; 
+  for (vector<int>::iterator j= pvsa.positional.begin(); j != pvsa.positional.end(); j++)
+    {
+      cout << *j<<" "<< pvsa.actual[localcount] <<"\n";
+      localcount++ ; 
+    }
+  cout << "=======\n" ; 
+  
+  
   return 0 ; 
 }
